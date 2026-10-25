@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>영어 쏙쏙 - 단어 암기 · 본문 직독직해</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFF8EE; --card:#FFFFFF; --ink:#2B2A33; --sub:#6E6A7C; --line:#EFE6D8;
+  --blue:#4F7CFF; --blue-soft:#E8EEFF; --yellow:#FFB020; --yellow-soft:#FFF1D2;
+  --green:#22A866; --green-soft:#E1F6EA; --red:#F0525A; --red-soft:#FDE6E7;
+  --purple:#8B5CF6; --purple-soft:#F0E9FF;
+  --radius:18px; --shadow:0 2px 0 rgba(43,42,51,.04), 0 8px 24px rgba(120,90,40,.08);
+  --ko:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+  --title:"Jua",var(--ko);
+  --en:"Nunito","Segoe UI","Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ko);font-size:16px;line-height:1.5;-webkit-text-size-adjust:100%}
+[hidden]{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+
+/* header */
+.top{background:linear-gradient(135deg,#FFD66B 0%,#FFB020 55%,#FF9A3D 100%);padding:18px 0 58px;padding-top:calc(18px + env(safe-area-inset-top,0px))}
+.top .wrap{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:52px;height:52px;border-radius:16px;background:#fff;display:grid;place-items:center;font-family:var(--title);font-size:28px;color:var(--yellow);box-shadow:0 4px 0 rgba(0,0,0,.08);transform:rotate(-6deg)}
+.brand h1{margin:0;font-family:var(--title);font-weight:400;font-size:28px;color:#3A2A00;line-height:1.1}
+.brand p{margin:2px 0 0;font-size:13px;color:#6B4A00}
+.setbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.setbar select{min-width:0;max-width:220px;padding:9px 12px;border-radius:12px;border:0;background:#fff;font-weight:600}
+.icon-btn{border:0;background:rgba(255,255,255,.85);border-radius:12px;padding:9px 12px;font-weight:700}
+.icon-btn:hover{background:#fff}
+
+/* tabs */
+.tabs{max-width:980px;margin:-40px auto 0;padding:0 16px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+.tabs button{border:0;background:var(--card);border-radius:16px;padding:10px 6px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:700;color:var(--sub);border-bottom:4px solid transparent;transition:.15s}
+.tabs button .ic{font-size:22px;line-height:1}
+.tabs button span{font-size:14px}
+.tabs button small{font-size:10.5px;font-weight:500;color:#A09AAE}
+.tabs button.active{color:var(--ink);border-bottom-color:var(--yellow);transform:translateY(-2px)}
+main{padding:18px 0 60px}
+.tab{display:none}
+.tab.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* cards & controls */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:16px}
+.card h2{margin:0 0 6px;font-family:var(--title);font-weight:400;font-size:22px}
+.card-head{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-bottom:8px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--sub);flex:1;min-width:140px}
+input[type=text],input[type=date],input:not([type]),textarea,select{border:2px solid var(--line);border-radius:12px;padding:10px 12px;background:#FFFDF9;outline:none;transition:border-color .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--blue)}
+textarea{width:100%;resize:vertical;line-height:1.6}
+.btns{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.btn{border:2px solid var(--line);background:#fff;border-radius:12px;padding:9px 14px;font-weight:700;display:inline-flex;align-items:center;gap:6px;transition:transform .08s, background .15s;white-space:nowrap}
+.btn:hover{background:#FFFBF3}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 3px 0 #3558C9}
+.btn.yellow{background:var(--yellow);border-color:var(--yellow);color:#3A2A00;box-shadow:0 3px 0 #D18A00}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--red)}
+.btn.small{padding:5px 10px;font-size:13px;border-radius:10px}
+.pill{display:inline-block;background:var(--yellow-soft);color:#8A5A00;border-radius:999px;padding:2px 10px;font-size:13px;font-family:var(--ko);font-weight:700;vertical-align:middle}
+.empty{padding:28px 10px;text-align:center;color:var(--sub)}
+
+table{width:100%;border-collapse:collapse}
+th{font-size:13px;color:var(--sub);text-align:left;font-weight:600;padding:6px 8px;border-bottom:2px solid var(--line)}
+td{padding:6px 8px;border-bottom:1px solid #F6EFE4;vertical-align:middle}
+td input{width:100%;min-width:90px;padding:7px 10px}
+
+/* Auth / Modal */
+#authBanner { background: var(--blue-soft); padding: 10px; border-radius: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+#toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:#2B2A33;color:#fff;padding:10px 18px;border-radius:12px;font-weight:600;opacity:0;transition:.25s;z-index:90;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.custom-modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:0.2s;}
+.custom-modal.show{opacity:1;pointer-events:auto;}
+.custom-modal-content{background:#fff;padding:24px;border-radius:16px;max-width:400px;width:90%;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.2);}
+.custom-modal-actions{display:flex;justify-content:center;gap:12px;margin-top:20px;}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">쏙</div>
+      <div>
+        <h1>영어 쏙쏙</h1>
+        <p>오늘 배운 단어와 문장, 쏙쏙 내 것으로!</p>
+      </div>
+    </div>
+    <div class="setbar">
+      <select id="setSelect" aria-label="학습 선택"></select>
+      <button class="icon-btn" id="newSetBtn">+ 새 학습</button>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="input" class="active"><span class="ic">📝</span><span>입력하기</span></button>
+  <button data-tab="learn"><span class="ic">📖</span><span>단어 공부</span></button>
+</nav>
+
+<main class="wrap">
+  <div id="authBanner">
+    <div><span id="userStatus">로그인하여 데이터를 클라우드에 안전하게 저장하세요.</span></div>
+    <button class="btn primary small" id="loginBtn">Google 로그인</button>
+  </div>
+
+  <section id="tab-input" class="tab active">
+    <div class="card">
+      <div class="card-head">
+        <h2>오늘의 학습</h2>
+        <button class="btn small ghost danger" id="deleteSetBtn">이 학습 삭제</button>
+      </div>
+      <div class="row">
+        <label>제목<input id="setTitle" type="text" placeholder="예: 3단원 단어"></label>
+        <label style="max-width:200px">날짜<input id="setDate" type="date"></label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>단어 입력</h2>
+      <p style="color:var(--sub);font-size:13px;">영어 단어를 한 줄에 하나씩 적어 주세요.</p>
+      <textarea id="wordInput" rows="5" placeholder="apple 사과&#10;banana - 바나나"></textarea>
+      <div class="btns">
+        <button class="btn primary" id="addWordsBtn">단어 추가하기</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>단어 목록 <span class="pill" id="wordCount">0개</span></h2>
+        <div class="btns" style="margin:0">
+          <button class="btn small ghost danger" id="clearWordsBtn">전체 삭제</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="wordTable">
+          <thead><tr><th>#</th><th>영어 단어</th><th>뜻</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="empty" id="wordEmpty">아직 단어가 없어요. 위에서 단어를 추가해 주세요.</div>
+    </div>
+  </section>
+
+  <section id="tab-learn" class="tab">
+    <div class="card empty" id="learnEmpty">
+      <span style="font-size:40px">📭</span><br>공부할 단어가 없어요.
+    </div>
+    <div class="card" id="learnContent" hidden style="text-align:center;">
+       <h1 id="learnWord" style="font-family:var(--en); font-size:48px; margin: 20px 0;"></h1>
+       <h2 id="learnMeaning" style="color:var(--blue); font-size: 24px; margin-bottom: 30px;"></h2>
+       <div class="btns" style="justify-content:center;">
+         <button class="btn" id="btnPrev">◀ 이전</button>
+         <button class="btn primary" id="btnNext">다음 ▶</button>
+       </div>
+    </div>
+  </section>
+</main>
+
+<div id="toast"></div>
+
+<!-- Custom Confirm Modal -->
+<div class="custom-modal" id="confirmModal">
+  <div class="custom-modal-content">
+    <h3 style="margin-top:0; font-family:var(--title); font-weight:400; font-size:20px;" id="confirmMsg">정말 삭제하시겠습니까?</h3>
+    <div class="custom-modal-actions">
+      <button class="btn ghost" id="confirmCancel">취소</button>
+      <button class="btn danger" id="confirmOk">확인</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  // Firebase SDK 연동
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBQWJ8dhAlMe63o6edknxItIwHIMR_lzXU",
+    authDomain: "english-study-40cec.firebaseapp.com",
+    projectId: "english-study-40cec",
+    storageBucket: "english-study-40cec.firebasestorage.app",
+    messagingSenderId: "429648831899",
+    appId: "1:429648831899:web:bb44e5ac80c75553e7ad3e",
+    measurementId: "G-MBC92R0TVE"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  let DB = { sets: [], currentId: null };
+  let currentUser = null;
+  let saveTimeout = null;
+  
+  const uid = () => Math.random().toString(36).slice(2, 10);
+  const pad2 = n => String(n).padStart(2, '0');
+  const todayStr = () => { const d = new Date(); return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`; };
+
+  // DOM Elements
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => document.querySelectorAll(s);
+
+  function toast(msg) {
+    const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // Custom Confirm
+  function askConfirm(msg, callback) {
+    $('#confirmMsg').textContent = msg;
+    const modal = $('#confirmModal');
+    modal.classList.add('show');
+    
+    const onOk = () => { cleanup(); callback(); };
+    const onCancel = () => { cleanup(); };
+    
+    function cleanup() {
+      modal.classList.remove('show');
+      $('#confirmOk').removeEventListener('click', onOk);
+      $('#confirmCancel').removeEventListener('click', onCancel);
+    }
+    
+    $('#confirmOk').addEventListener('click', onOk);
+    $('#confirmCancel').addEventListener('click', onCancel);
+  }
+
+  // --- Auth Logic ---
+  onAuthStateChanged(auth, async (user) => {
+    currentUser = user;
+    if (user) {
+      $('#userStatus').textContent = `${user.displayName}님 환영합니다!`;
+      $('#loginBtn').textContent = '로그아웃';
+      $('#loginBtn').classList.replace('primary', 'ghost');
+      await loadFromCloud();
+    } else {
+      $('#userStatus').textContent = `로그인하여 데이터를 클라우드에 안전하게 저장하세요.`;
+      $('#loginBtn').textContent = 'Google 로그인';
+      $('#loginBtn').classList.replace('ghost', 'primary');
+      loadLocal();
+    }
+  });
+
+  $('#loginBtn').addEventListener('click', () => {
+    if (currentUser) {
+      signOut(auth);
+      toast('로그아웃 되었습니다.');
+    } else {
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider).catch(err => {
+         toast('로그인 에러: ' + err.message);
+      });
+    }
+  });
+
+  // --- Data Logic ---
+  function freshDB() {
+    return { sets: [ { id: uid(), title: '오늘의 영단어', date: todayStr(), words: [] } ], currentId: null };
+  }
+
+  function loadLocal() {
+    try { 
+      const d = JSON.parse(localStorage.getItem('engssokssok_v1'));
+      if (d && d.sets) DB = d;
+      else DB = freshDB();
+    } catch(e) { DB = freshDB(); }
+    if(!DB.currentId && DB.sets.length > 0) DB.currentId = DB.sets[0].id;
+    updateUI();
+  }
+
+  async function loadFromCloud() {
+    if (!currentUser) return;
+    try {
+      const docRef = doc(db, 'users', currentUser.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        DB = docSnap.data().data || freshDB();
+      } else {
+        // 클라우드에 데이터가 없으면 로컬 데이터를 올림
+        if(DB.sets.length === 0) DB = freshDB();
+        await saveToCloudImmediate();
+      }
+      if(!DB.currentId && DB.sets.length > 0) DB.currentId = DB.sets[0].id;
+      updateUI();
+      toast('클라우드 데이터를 불러왔습니다.');
+    } catch(e) {
+      console.error(e);
+      toast('데이터 불러오기 실패');
+    }
+  }
+
+  function save() {
+    // 로컬 저장
+    localStorage.setItem('engssokssok_v1', JSON.stringify(DB));
+    // 클라우드 저장 (디바운싱 적용 - 너무 잦은 요청 방지)
+    if (currentUser) {
+      if (saveTimeout) clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(saveToCloudImmediate, 1500);
+    }
+  }
+
+  async function saveToCloudImmediate() {
+    if (!currentUser) return;
+    try {
+      await setDoc(doc(db, 'users', currentUser.uid), { data: DB });
+    } catch (e) { console.error("Cloud save failed", e); }
+  }
+
+  function cur() {
+    let s = DB.sets.find(x => x.id === DB.currentId);
+    if (!s) { s = DB.sets[0]; DB.currentId = s.id; }
+    return s;
+  }
+
+  function updateUI() {
+    renderSetSelect();
+    if(currentTab === 'input') renderInput();
+    else if(currentTab === 'learn') renderLearn();
+  }
+
+  // --- UI Logic ---
+  let currentTab = 'input';
+  $$('#tabs button').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const tb = e.target.closest('button');
+      if(!tb) return;
+      currentTab = tb.dataset.tab;
+      $$('#tabs button').forEach(b => b.classList.toggle('active', b === tb));
+      $$('.tab').forEach(s => s.classList.toggle('active', s.id === 'tab-' + currentTab));
+      updateUI();
+    });
+  });
+
+  function renderSetSelect() {
+    const sel = $('#setSelect');
+    sel.innerHTML = DB.sets.map(s => `<option value="${s.id}">${s.title || '제목 없음'}</option>`).join('');
+    sel.value = DB.currentId;
+  }
+
+  $('#setSelect').addEventListener('change', e => {
+    DB.currentId = e.target.value;
+    save();
+    updateUI();
+  });
+
+  $('#newSetBtn').addEventListener('click', () => {
+    const s = { id: uid(), title: '새 학습', date: todayStr(), words: [] };
+    DB.sets.unshift(s);
+    DB.currentId = s.id;
+    save();
+    updateUI();
+    toast('새 학습이 추가되었습니다.');
+  });
+
+  $('#deleteSetBtn').addEventListener('click', () => {
+    if(DB.sets.length <= 1) {
+      toast('마지막 학습은 삭제할 수 없습니다.');
+      return;
+    }
+    askConfirm('이 학습 세트를 정말 삭제할까요?', () => {
+      DB.sets = DB.sets.filter(x => x.id !== DB.currentId);
+      DB.currentId = DB.sets[0].id;
+      save();
+      updateUI();
+      toast('삭제 완료');
+    });
+  });
+
+  function renderInput() {
+    const s = cur();
+    $('#setTitle').value = s.title;
+    $('#setDate').value = s.date;
+    
+    $('#setTitle').oninput = e => { s.title = e.target.value; save(); renderSetSelect(); };
+    $('#setDate').onchange = e => { s.date = e.target.value; save(); };
+
+    renderWordTable();
+  }
+
+  function renderWordTable() {
+    const s = cur();
+    $('#wordCount').textContent = s.words.length + '개';
+    
+    if(s.words.length === 0) {
+      $('#wordTable').style.display = 'none';
+      $('#wordEmpty').style.display = 'block';
+    } else {
+      $('#wordTable').style.display = 'table';
+      $('#wordEmpty').style.display = 'none';
+      $('#wordTable tbody').innerHTML = s.words.map((w, i) => `
+        <tr data-idx="${i}">
+          <td>${i+1}</td>
+          <td><input type="text" value="${w.w}" data-field="w"></td>
+          <td><input type="text" value="${w.m}" data-field="m"></td>
+          <td><button class="btn small danger" data-action="del">삭제</button></td>
+        </tr>
+      `).join('');
+    }
+  }
+
+  $('#wordTable').addEventListener('input', e => {
+    if(e.target.tagName !== 'INPUT') return;
+    const idx = e.target.closest('tr').dataset.idx;
+    const field = e.target.dataset.field;
+    cur().words[idx][field] = e.target.value;
+    save();
+  });
+
+  $('#wordTable').addEventListener('click', e => {
+    if(e.target.dataset.action === 'del') {
+      const idx = e.target.closest('tr').dataset.idx;
+      cur().words.splice(idx, 1);
+      save();
+      renderWordTable();
+    }
+  });
+
+  $('#addWordsBtn').addEventListener('click', () => {
+    const text = $('#wordInput').value;
+    if(!text.trim()) return;
+    
+    const lines = text.split('\n');
+    let added = 0;
+    lines.forEach(line => {
+       const parts = line.split(/[\s-]+/);
+       if(parts.length > 0 && parts[0].trim() !== '') {
+          let w = parts[0];
+          let m = parts.slice(1).join(' ');
+          cur().words.push({w, m});
+          added++;
+       }
+    });
+    
+    if(added > 0) {
+       save();
+       $('#wordInput').value = '';
+       renderWordTable();
+       toast(`${added}개의 단어가 추가되었습니다.`);
+    }
+  });
+
+  $('#clearWordsBtn').addEventListener('click', () => {
+    if(cur().words.length === 0) return;
+    askConfirm('모든 단어를 삭제할까요?', () => {
+      cur().words = [];
+      save();
+      renderWordTable();
+    });
+  });
+
+  // --- Learn Logic ---
+  let learnIdx = 0;
+  function renderLearn() {
+    const s = cur();
+    if(s.words.length === 0) {
+       $('#learnEmpty').hidden = false;
+       $('#learnContent').hidden = true;
+       return;
+    }
+    $('#learnEmpty').hidden = true;
+    $('#learnContent').hidden = false;
+    
+    if(learnIdx >= s.words.length) learnIdx = 0;
+    if(learnIdx < 0) learnIdx = s.words.length - 1;
+    
+    const w = s.words[learnIdx];
+    $('#learnWord').textContent = w.w;
+    $('#learnMeaning').textContent = w.m || '(뜻 없음)';
+  }
+
+  $('#btnPrev').addEventListener('click', () => { learnIdx--; renderLearn(); });
+  $('#btnNext').addEventListener('click', () => { learnIdx++; renderLearn(); });
+
+  // Init
+  loadLocal();
+
+</script>
+</body>
+</html>
